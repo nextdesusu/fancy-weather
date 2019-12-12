@@ -1,0 +1,75 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+
+#backgroundId {
+    width: 100vh;
+    margin: auto auto;
+    background-repeat: no-repeat;
+}
+
+button, input {
+    background-color: white;
+    border: none;
+    width: 100%;
+    height: 100%;
+}
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.settings {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    justify-content: space-between;
+    align-items: center;
+    grid-gap: 0.5em;
+}
+
+.settings__elem {
+    cursor: pointer;
+    border-radius: 0.5em;
+    border: 1px solid black;
+    box-shadow: 1px 3px 10px black;
+    padding: 0.3em;
+}
+
+.form {
+    padding: 0px;
+    cursor: auto;
+}
+
+.form__input {
+    width: 10em;
+    cursor: text;
+    height: 2.4em;
+    border-radius: 0.5em; 
+    padding: 0.3em;
+}
+
+.form__submit {
+    border-top-right-radius: 0.5em;
+    border-bottom-right-radius: 0.5em;
+    width: 5em;
+    border-left: 1px solid black;
+    height: 3em;
+    cursor: pointer;
+}
+
+.app-main {
+    margin-top: 1em;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.map {
+    width: 300px;
+    height: 300px;
+    background-color: green;
+}
