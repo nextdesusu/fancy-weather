@@ -3,10 +3,16 @@
     margin: 0px;
 }
 
+ul, ol {
+    list-style: none;
+}
+
 #backgroundId {
     width: 100vh;
     margin: auto auto;
     background-repeat: no-repeat;
+    background-size: cover;
+    padding: 1em;
 }
 
 button, input {
@@ -68,8 +74,22 @@ button, input {
     justify-content: space-around;
 }
 
+.info-header {
+    text-transform: capitalize;
+}
+
+.info-header, .info-date {
+    text-align: center;
+}
+
+.inidicators-wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
 .map {
     width: 300px;
     height: 300px;
-    background-color: green;
+    background-color: rgb(199, 182, 182);
+    border-radius: 1em;
 }

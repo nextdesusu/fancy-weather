@@ -1,3 +1,5 @@
+import Map from "./MapAPI";
+
 const TIME = "18:00:00";
 
 export async function GetWeatherData(city, lang, accesKey){
@@ -22,4 +24,12 @@ export async function GetCityImage(cityName, accesKey){
     const json = await urls.json();
     const blob = await json.urls.small;
     return blob;
+}
+
+export async function createMap(accesKey, lng, lat){
+    const pointSize = 200;
+    const animatonLast = 2000;
+    const startingZoom = 9;
+    const map = new Map(accesKey, pointSize, animatonLast, startingZoom, lng, lat);
+    return map;
 }

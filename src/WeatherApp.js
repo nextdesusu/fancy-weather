@@ -13,11 +13,13 @@ import {
     tempStateIND,
     feelsLikeIND,
     windIND,
-    humidityIND
+    humidityIND,
+    latitudeId,
+    longitudeId
 } from "./NodeData";
 import { TEN_MINUTES } from "./Consts";
-import { GetWeatherData, GetLocation, GetCityImage } from "./SideAPI";
-import { WEATHER_KEY, LOCATION_KEY, IMAGE_KEY } from "./SecretKeys";
+import { GetWeatherData, GetLocation, GetCityImage, createMap } from "./SideAPI";
+import { WEATHER_KEY, LOCATION_KEY, IMAGE_KEY, MAP_KEY } from "./SecretKeys";
 
 export default class WeatherApp {
     constructor(rootNode, days){
@@ -32,11 +34,19 @@ export default class WeatherApp {
         this.__feelsLikeNodes = null;
         this.__windNodes = null;
         this.__humidityNodes = null;
+        this.__latitudeNode = null;
+        this.__longitudeNode = null;
+
+        this.__map = null;
 
         this.__city = "";
         this.__country = "";
         this.__language = "RU";
         this.__measureScale = "CEL";
+        this.__coords = {
+            latitude: 0,
+            longitude: 0
+        };
     }
 
     async changeCity(cityName){
@@ -64,6 +74,16 @@ export default class WeatherApp {
             this.__feelsLikeNodes[day].innerText = main.feels_like;
             this.__windNodes[day].innerText = wind.speed;
             this.__humidityNodes[day].innerText = main.humidity;
+        }
+    }
+
+    async updateMap(){
+        const { latitude, longitude } = this.__coords;
+        this.__latitudeNode.innerText = latitude;
+        this.__longitudeNode.innerText = longitude;
+        if (this.__map === null){
+            const newMap = createMap(MAP_KEY, latitude, longitude)
+            this.__map = newMap;
         }
     }
 
@@ -96,6 +116,24 @@ export default class WeatherApp {
         console.log(weatherData);
     }
 
+    async getCurrentPosition(){
+        const posOptions = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+        };
+        const succes = (crd) => {
+            const coords = crd.coords;
+            //console.log("coords:", coords)
+            this.__coords.latitude = coords.latitude;
+            this.__coords.longitude = coords.longitude;
+            this.updateMap();
+            console.log(this.__coords)
+        };
+        const error = (err) => console.log("error:", err);
+        navigator.geolocation.getCurrentPosition(succes, error, posOptions);
+    }
+
     async init(){
         const cityQuery = await GetLocation(LOCATION_KEY);
 
@@ -109,8 +147,8 @@ export default class WeatherApp {
         this.__feelsLikeNodes = document.querySelectorAll(`.${feelsLikeIND}`);
         this.__windNodes = document.querySelectorAll(`.${windIND}`);
         this.__humidityNodes = document.querySelectorAll(`.${humidityIND}`);
-
-        this.updateDate();
+        this.__latitudeNode = document.querySelector(`#${latitudeId}`);
+        this.__longitudeNode = document.querySelector(`#${longitudeId}`);
 
         const updateButton = document.querySelector(`#${UpdateButtonId}`);
         const searchInput = document.querySelector(`#${formInputId}`);
@@ -136,10 +174,11 @@ export default class WeatherApp {
         for (let unit of measureUnits){
             if (unit.value === measureScale){
                 unit.checked = true;
-                break;
+            }
+            unit.onclick = () => {
+                console.log(unit.value);
             }
         }
-
 
         searchButton.onclick = (e) => {
             e.preventDefault();
@@ -152,5 +191,8 @@ export default class WeatherApp {
             const selectedLanguage = langOptions[index].value;
             console.log(selectedLanguage)
         }
+
+        this.getCurrentPosition();
+        this.updateDate();
     }
 }

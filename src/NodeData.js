@@ -12,3 +12,5 @@ export const tempStateIND = "tempStateIND";
 export const feelsLikeIND = "feelsLikeIND";
 export const windIND = "windIND";
 export const humidityIND = "humidityIND";
+export const latitudeId = "latitudeId";
+export const longitudeId = "logitudeId";

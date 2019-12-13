@@ -12,7 +12,9 @@ import {
     tempStateIND,
     feelsLikeIND,
     windIND,
-    humidityIND
+    humidityIND,
+    latitudeId,
+    longitudeId
 } from "./NodeData";
 
 const md = `
@@ -34,7 +36,7 @@ const md = `
     <div class="app-main">
         <div class="info">
             <h1 id="${cityNameId}" class="info-header"></h1>
-            <h3 id="${currentDateId}"></h3>
+            <h3 id="${currentDateId}" class="info-date"></h3>
             <div class="info-temperature">
                 <div class="temperature-icon">
 
@@ -62,8 +64,14 @@ const md = `
                 </ul>
             </div>
         </div>
-        <div class="map">
-        
+        <div class="map-container">
+            <div id="map" class="map"></div>
+            <div class="map-coordinates">
+                <ul class="coordinates-list">
+                    <li class="coordinates-item">latitude: <span id="${latitudeId}"></span></li>
+                    <li class="coordinates-item">logitude: <span id="${longitudeId}"></span></li>
+                </ul>
+            </div>
         </div>
     </div>
 `
