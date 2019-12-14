@@ -20,6 +20,7 @@ import {
 import { TEN_MINUTES } from "./Consts";
 import { GetWeatherData, GetLocation, GetCityImage, createMap } from "./SideAPI";
 import { WEATHER_KEY, LOCATION_KEY, IMAGE_KEY, MAP_KEY } from "./SecretKeys";
+import Translate from "./Translate";
 
 export default class WeatherApp {
     constructor(rootNode, days){
@@ -49,12 +50,23 @@ export default class WeatherApp {
         };
     }
 
+    async setRandomCityImage(){
+        const cityName = this.__city;
+        const cityImage = await GetCityImage(cityName, IMAGE_KEY);
+        this.__background.style.backgroundImage = `url(${cityImage})`;
+    }
+
     async changeCity(cityName){
         this.__city = cityName;
         this.__cityNameNode.innerText = cityName;
+        //this.setRandomCityImage();
         //working but should be turned on in final version!!!
-        //const cityImage = await GetCityImage(cityName, IMAGE_KEY);
-        //this.__background.style.backgroundImage = `url(${cityImage})`;
+    }
+
+    translateTo(newLang){
+        const lang = newLang.toLowerCase();
+        document.documentElement.lang = lang;
+        console.log(newLang, "==", document.documentElement.lang);
     }
 
     updateDate(){
@@ -101,19 +113,20 @@ export default class WeatherApp {
             i have to made a new one because weather is updated*/
             const language = this.__language;
             const query = await GetWeatherData(cityName, language, WEATHER_KEY);
-            console.log("all data is:", query);
+            //console.log("all data is:", query);
             const newData = query.list.filter(reading => reading.dt_txt.includes("03:00:00"));
             const newDate = Date.now();
             localStorage.setItem(`weather-city:${cityName}`, JSON.stringify(newData));
             localStorage.setItem("dateOfQuery", newDate);
             
             weatherData = newData;
-            console.log("updated");
+            //console.log("updated");
         } else {
-            console.log("not updated");
+            //console.log("not updated");
         }
         this.updateIndicators(weatherData);
-        console.log(weatherData);
+        this.setRandomCityImage();
+        //console.log(weatherData);
     }
 
     async getCurrentPosition(){
@@ -158,8 +171,8 @@ export default class WeatherApp {
         const measureUnits = document.querySelectorAll(`[name=${measureUnitsName}]`);
 
         updateButton.onclick = () => {
-            const locationCity = cityQuery.city;
-            this.updateWeather(locationCity);
+            //update image!
+            this.setRandomCityImage();
         }
 
         const currentLanguage = this.__language;
@@ -192,7 +205,12 @@ export default class WeatherApp {
             console.log(selectedLanguage)
         }
 
+        const locationCity = cityQuery.city;
+        this.updateWeather(locationCity);
+        //const toTranslate = document.querySelectorAll(`[data-transl='1']`);
+        //Translate("ru", toTranslate);
         this.getCurrentPosition();
         this.updateDate();
+        this.translateTo("RU");
     }
 }

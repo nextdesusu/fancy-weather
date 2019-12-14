@@ -1,18 +1,82 @@
 *{
     padding: 0px;
     margin: 0px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 ul, ol {
     list-style: none;
 }
 
+form {
+    padding: 0px;
+    margin: 0px;
+}
+
+.checkbox-container {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    font-size: 18px;
+    text-align: center;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    text-transform: capitalize;
+    background-color: white;
+  }
+  
+  /* Hide the browser's default checkbox */
+  .checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  /* Create a custom checkbox */
+  
+  /* On mouse-over, add a grey background color */
+  .checkbox-container:hover input ~ .checkbox-checkmark {
+    background-color: rgba(204, 204, 204, 0.3);
+  }
+  
+  /* When the checkbox is checked, add a blue background */
+.checkbox-container input:checked ~ .checkbox-checkmark {
+    background-color: rgba(14, 91, 155, 0.3);
+}
+  
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkbox-checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+  
+  /* Show the checkmark when checked */
+.checkbox-container input:checked ~ .checkbox-checkmark:after {
+    display: block;
+}
+  
+
 #backgroundId {
-    width: 100vh;
+    width: 640px;
     margin: auto auto;
     background-repeat: no-repeat;
     background-size: cover;
     padding: 1em;
+    box-shadow: 1px 3px 10px gray;
+    border-radius: 1em;
+}
+
+@media screen and (max-width: 640px) {
+    #backgroundId {
+        width: 280px;
+        box-shadow: none;
+        padding: 0px;
+    }
 }
 
 button, input {
@@ -23,9 +87,19 @@ button, input {
 }
 
 .app-header {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     justify-content: space-between;
     align-items: center;
+    grid-gap: 2em;
+}
+
+@media screen and (max-width: 640px) {
+    .app-header {
+        grid-template-columns: none;
+        grid-template-rows: 1fr 1fr;
+        justify-content: center;
+    }
 }
 
 .settings {
@@ -36,21 +110,32 @@ button, input {
     grid-gap: 0.5em;
 }
 
-.settings__elem {
+.settings__elem, .checkbox-checkmark {
     cursor: pointer;
     border-radius: 0.5em;
-    border: 1px solid black;
-    box-shadow: 1px 3px 10px black;
-    padding: 0.3em;
+    box-shadow: 1px 3px 10px rgba(0, 0, 0, 0.61);
+    width: 100%;
+    height: 100%;
+}
+
+.checkbox-checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(238, 238, 238, 0.3);
+    padding: 0px;
+    border: none;
 }
 
 .form {
+    margin: 0px;
     padding: 0px;
     cursor: auto;
+    display: grid;
+    grid-template-columns: 70% 30%;
 }
 
 .form__input {
-    width: 10em;
     cursor: text;
     height: 2.4em;
     border-radius: 0.5em; 
@@ -60,7 +145,6 @@ button, input {
 .form__submit {
     border-top-right-radius: 0.5em;
     border-bottom-right-radius: 0.5em;
-    width: 5em;
     border-left: 1px solid black;
     height: 3em;
     cursor: pointer;
@@ -71,7 +155,30 @@ button, input {
     display: grid;
     grid-template-columns: 1fr 1fr;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
+    grid-gap: 2em;
+    padding: 0px;
+}
+
+@media screen and (max-width: 640px) {
+    .app-main {
+        grid-template-columns: none;
+        grid-template-rows: auto auto;
+    }
+}
+
+.info, .map-coordinates {
+    background-color: rgba(255, 255, 255, 0.349);
+    border-radius: 1em;
+    padding: 1em;
+}
+
+.map-coordinates {
+    padding: 0.3em;
+}
+
+.coordinates-item {
+    text-transform: capitalize;
 }
 
 .info-header {
@@ -85,11 +192,19 @@ button, input {
 .inidicators-wrapper {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    grid-gap: 1em;
+}
+
+.map-container {
+    display: grid;
+    grid-template-rows: auto auto;
+    justify-content: center;
 }
 
 .map {
-    width: 300px;
-    height: 300px;
+    width: 250px;
+    height: 250px;
     background-color: rgb(199, 182, 182);
     border-radius: 1em;
+    align-self: center;
 }
