@@ -14,3 +14,4 @@ export const windIND = "windIND";
 export const humidityIND = "humidityIND";
 export const latitudeId = "latitudeId";
 export const longitudeId = "logitudeId";
+export const mapContainerId = "mapContainerId";

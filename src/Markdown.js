@@ -14,7 +14,8 @@ import {
     windIND,
     humidityIND,
     latitudeId,
-    longitudeId
+    longitudeId,
+    mapContainerId
 } from "./NodeData";
 
 const md = `
@@ -45,31 +46,31 @@ const md = `
             <h3 id="${currentDateId}" class="info-date"></h3>
             <div class="inidicators-wrapper">
                 <ul class="inidicators-list">
-                    <li data-transl="1" class="inidicators-item"><span class="${tempStateIND}"></span></li>
-                    <li data-transl="1" class="inidicators-item">feels like: <span class="${feelsLikeIND}"></span></li>
-                    <li data-transl="1" class="inidicators-item">wind: <span class="${windIND}"></span></li>
-                    <li data-transl="1" class="inidicators-item">humidity: <span class="${humidityIND}"></span></li>
+                    <li class="inidicators-item"><span class="${tempStateIND}"></span></li>
+                    <li class="inidicators-item"><span data-transl="feelsLike"></span><span class="${feelsLikeIND}"></span></li>
+                    <li class="inidicators-item"><span data-transl="wind"></span><span class="${windIND}"></span></li>
+                    <li class="inidicators-item"><span data-transl="humidity"></span><span class="${humidityIND}"></span></li>
                 </ul>
                 <ul class="inidicators-list">
-                    <li data-transl="1" class="inidicators-item"><span class="${tempStateIND}"></span></li>
-                    <li data-transl="1" class="inidicators-item">feels like: <span class="${feelsLikeIND}"></span></li>
-                    <li data-transl="1" class="inidicators-item">wind: <span class="${windIND}"></span></li>
-                    <li data-transl="1" class="inidicators-item">humidity: <span class="${humidityIND}"></span></li>
+                    <li class="inidicators-item"><span class="${tempStateIND}"></span></li>
+                    <li class="inidicators-item"><span data-transl="feelsLike"></span><span class="${feelsLikeIND}"></span></li>
+                    <li class="inidicators-item"><span data-transl="wind"></span><span class="${windIND}"></span></li>
+                    <li class="inidicators-item"><span data-transl="humidity"></span><span class="${humidityIND}"></span></li>
                 </ul>
                 <ul class="inidicators-list">
-                    <li data-transl="1" class="inidicators-item"><span class="${tempStateIND}"></span></li>
-                    <li data-transl="1" class="inidicators-item">feels like: <span class="${feelsLikeIND}"></span></li>
-                    <li data-transl="1" class="inidicators-item">wind: <span class="${windIND}"></span></li>
-                    <li data-transl="1" class="inidicators-item">humidity: <span class="${humidityIND}"></span></li>
+                    <li class="inidicators-item"><span class="${tempStateIND}"></span></li>
+                    <li class="inidicators-item"><span data-transl="feelsLike"></span><span class="${feelsLikeIND}"></span></li>
+                    <li class="inidicators-item"><span data-transl="wind"></span><span class="${windIND}"></span></li>
+                    <li class="inidicators-item"><span data-transl="humidity"></span><span class="${humidityIND}"></span></li>
                 </ul>
             </div>
         </div>
         <div class="map-container">
-            <div id="map" class="map"></div>
+            <div id="${mapContainerId}" class="map"></div>
             <div class="map-coordinates">
                 <ul class="coordinates-list">
-                    <li data-transl="1" class="coordinates-item">latitude: <span id="${latitudeId}"></span></li>
-                    <li data-transl="1" class="coordinates-item">logitude: <span id="${longitudeId}"></span></li>
+                    <li class="coordinates-item"><span data-transl="latitude"></span><span id="${latitudeId}"></span></li>
+                    <li class="coordinates-item"><span data-transl="logitude"></span><span id="${longitudeId}"></span></li>
                 </ul>
             </div>
         </div>

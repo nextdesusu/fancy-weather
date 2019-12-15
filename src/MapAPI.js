@@ -79,10 +79,10 @@ class PulsingDot {
 }
 
 class Map {
-     constructor(accesKey, pointSize, animationLasts, startingZoom, lng, lat){
+     constructor(accesKey, containerId, pointSize, animationLasts, startingZoom, lng, lat){
         mapboxgl.accessToken = accesKey;
         const map = new mapboxgl.Map({
-            container: 'map',
+            container: containerId,
             style: 'mapbox://styles/mapbox/streets-v9',
             center: [lng, lat], // starting position [lng, lat]
             zoom: startingZoom // starting zoom

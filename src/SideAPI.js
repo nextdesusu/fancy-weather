@@ -26,10 +26,10 @@ export async function GetCityImage(cityName, accesKey){
     return blob;
 }
 
-export async function createMap(accesKey, lng, lat){
+export async function createMap(accesKey, containerId, lng, lat){
     const pointSize = 200;
     const animatonLast = 2000;
     const startingZoom = 9;
-    const map = new Map(accesKey, pointSize, animatonLast, startingZoom, lng, lat);
+    const map = new Map(accesKey, containerId, pointSize, animatonLast, startingZoom, lng, lat);
     return map;
 }

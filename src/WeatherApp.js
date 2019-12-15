@@ -15,7 +15,8 @@ import {
     windIND,
     humidityIND,
     latitudeId,
-    longitudeId
+    longitudeId,
+    mapContainerId
 } from "./NodeData";
 import { TEN_MINUTES } from "./Consts";
 import { GetWeatherData, GetLocation, GetCityImage, createMap } from "./SideAPI";
@@ -42,7 +43,7 @@ export default class WeatherApp {
 
         this.__city = "";
         this.__country = "";
-        this.__language = "RU";
+        this.__language = "";
         this.__measureScale = "CEL";
         this.__coords = {
             latitude: 0,
@@ -66,7 +67,10 @@ export default class WeatherApp {
     translateTo(newLang){
         const lang = newLang.toLowerCase();
         document.documentElement.lang = lang;
-        console.log(newLang, "==", document.documentElement.lang);
+        const toTranslate = document.querySelectorAll(`[data-transl]`);
+        Translate(lang, toTranslate);
+        this.__language = lang;
+        localStorage.setItem("weather-language", lang);
     }
 
     updateDate(){
@@ -94,7 +98,7 @@ export default class WeatherApp {
         this.__latitudeNode.innerText = latitude;
         this.__longitudeNode.innerText = longitude;
         if (this.__map === null){
-            const newMap = createMap(MAP_KEY, latitude, longitude)
+            const newMap = createMap(MAP_KEY, mapContainerId, latitude, longitude)
             this.__map = newMap;
         }
     }
@@ -149,6 +153,7 @@ export default class WeatherApp {
 
     async init(){
         const cityQuery = await GetLocation(LOCATION_KEY);
+        this.__language = localStorage.getItem("weather-language") || "ru";
 
         this.__root.appendChild(Markdown);
         this.__background = document.querySelector(`#${backgroundId}`);
@@ -175,7 +180,7 @@ export default class WeatherApp {
             this.setRandomCityImage();
         }
 
-        const currentLanguage = this.__language;
+        const currentLanguage = this.__language.toUpperCase();
         for (let option of langOptions){
             if (option.value === currentLanguage){
                 option.selected = true;
@@ -201,16 +206,15 @@ export default class WeatherApp {
 
         langOptionsNode.onchange = () => {
             const index = langOptions.selectedIndex;
-            const selectedLanguage = langOptions[index].value;
-            console.log(selectedLanguage)
+            const selectedLanguage = langOptions[index].value.toLowerCase();
+            this.translateTo(selectedLanguage);
         }
 
         const locationCity = cityQuery.city;
-        this.updateWeather(locationCity);
-        //const toTranslate = document.querySelectorAll(`[data-transl='1']`);
-        //Translate("ru", toTranslate);
+        //this.updateWeather(locationCity);
         this.getCurrentPosition();
         this.updateDate();
-        this.translateTo("RU");
+        const currentLang = this.__language;
+        this.translateTo(currentLang);
     }
 }
