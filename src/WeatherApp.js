@@ -27,24 +27,23 @@ export default class WeatherApp {
     constructor(rootNode, days){
         this.__root = rootNode;
         this.__daysOfprognose = days;
+
         this.__background = null;
         this.__cityNameNode = null;
         this.__currentDateNode = null;
         this.__tempNode = null;
-
         this.__tempStateNodes = null;
         this.__feelsLikeNodes = null;
         this.__windNodes = null;
         this.__humidityNodes = null;
         this.__latitudeNode = null;
         this.__longitudeNode = null;
-
         this.__map = null;
 
         this.__city = "";
         this.__country = "";
         this.__language = "";
-        this.__measureScale = "CEL";
+        this.__measureScale = "";
         this.__coords = {
             latitude: 0,
             longitude: 0
@@ -60,7 +59,7 @@ export default class WeatherApp {
     async changeCity(cityName){
         this.__city = cityName;
         this.__cityNameNode.innerText = cityName;
-        //this.setRandomCityImage();
+        this.setRandomCityImage();
         //working but should be turned on in final version!!!
     }
 
@@ -71,6 +70,12 @@ export default class WeatherApp {
         Translate(lang, toTranslate);
         this.__language = lang;
         localStorage.setItem("weather-language", lang);
+    }
+
+    changeMeasureScale(newScale){
+        const scale = newScale.toLowerCase();
+        this.__measureScale = scale;
+        localStorage.setItem("weather-scale", scale);
     }
 
     updateDate(){
@@ -85,7 +90,6 @@ export default class WeatherApp {
         for (let day = 0; day < days; day++){
             const dailyData = weatherData[day];
             const { main, weather, wind } = dailyData;
-            //this.__tempNodes[day].innerText = main.temp;
             this.__tempStateNodes[day].innerText = weather[0].main;
             this.__feelsLikeNodes[day].innerText = main.feels_like;
             this.__windNodes[day].innerText = wind.speed;
@@ -105,7 +109,6 @@ export default class WeatherApp {
 
     async updateWeather(city){
         const cityName = city.toLowerCase();
-
         await this.changeCity(cityName);
 
         let weatherData = JSON.parse(localStorage.getItem(`weather-city:${cityName}`));
@@ -117,20 +120,20 @@ export default class WeatherApp {
             i have to made a new one because weather is updated*/
             const language = this.__language;
             const query = await GetWeatherData(cityName, language, WEATHER_KEY);
-            //console.log("all data is:", query);
+            console.log("query is", query);
+            if (query.cod !== "200"){
+                console.log(query.message)
+                return;
+            }
             const newData = query.list.filter(reading => reading.dt_txt.includes("03:00:00"));
             const newDate = Date.now();
             localStorage.setItem(`weather-city:${cityName}`, JSON.stringify(newData));
             localStorage.setItem("dateOfQuery", newDate);
-            
             weatherData = newData;
-            //console.log("updated");
-        } else {
-            //console.log("not updated");
         }
         this.updateIndicators(weatherData);
         this.setRandomCityImage();
-        //console.log(weatherData);
+        console.log("weatherData is", weatherData);
     }
 
     async getCurrentPosition(){
@@ -141,7 +144,6 @@ export default class WeatherApp {
         };
         const succes = (crd) => {
             const coords = crd.coords;
-            //console.log("coords:", coords)
             this.__coords.latitude = coords.latitude;
             this.__coords.longitude = coords.longitude;
             this.updateMap();
@@ -153,7 +155,11 @@ export default class WeatherApp {
 
     async init(){
         const cityQuery = await GetLocation(LOCATION_KEY);
-        this.__language = localStorage.getItem("weather-language") || "ru";
+        const language = localStorage.getItem("weather-language") || "ru";
+        const measureScale = localStorage.getItem("weather-scale") || "cel";
+
+        this.__language = language;
+        this.__measureScale = measureScale;
 
         this.__root.appendChild(Markdown);
         this.__background = document.querySelector(`#${backgroundId}`);
@@ -180,20 +186,19 @@ export default class WeatherApp {
             this.setRandomCityImage();
         }
 
-        const currentLanguage = this.__language.toUpperCase();
         for (let option of langOptions){
-            if (option.value === currentLanguage){
+            if (option.value === language.toUpperCase()){
                 option.selected = true;
                 break;
             }
         }
 
-        const measureScale = this.__measureScale;
         for (let unit of measureUnits){
-            if (unit.value === measureScale){
+            if (unit.value === measureScale.toUpperCase()){
                 unit.checked = true;
             }
             unit.onclick = () => {
+                this.changeMeasureScale(unit.value);
                 console.log(unit.value);
             }
         }
