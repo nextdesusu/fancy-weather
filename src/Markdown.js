@@ -8,7 +8,9 @@ import {
     formSubmitId,
     cityNameId,
     currentDateId,
-    currentTemperatureId,
+    INDlistBlock,
+    INDlistHeader,
+    currentTemperatureIND,
     tempStateIND,
     feelsLikeIND,
     windIND,
@@ -26,14 +28,18 @@ const md = `
                 <option value="EN">EN</option>
                 <option value="RU">RU</option>
             </select>
-            <label class="checkbox-container settings__elem">cel
-                <input value="CEL" class="checkbox-elem" type="radio" name="${measureUnitsName}">
-                <span class="checkbox-checkmark"></span>
-            </label>
-            <label class="checkbox-container settings__elem">far
-                <input value="FAR" class="checkbox-elem" type="radio" name="${measureUnitsName}">
-                <span class="checkbox-checkmark"></span>
-            </label>
+            <div class="settings__elem checkbox-wrapper">
+                <label class="checkbox-container">
+                    <span>c</span>
+                    <input value="CEL" class="checkbox-elem" type="radio" name="${measureUnitsName}">
+                    <span class="checkbox-checkmark"></span>
+                </label>
+                <label class="checkbox-container">
+                    <span>f</span>
+                    <input value="FAR" class="checkbox-elem" type="radio" name="${measureUnitsName}">
+                    <span class="checkbox-checkmark"></span>
+                </label>
+            </div>
         </div>
         <form class="settings__elem form" id="${formId}" action="/" method="GET">
             <input required type="text" id="${formInputId}" class="form__input" placeholder="Search city or ZIP">
@@ -45,24 +51,36 @@ const md = `
             <h1 id="${cityNameId}" class="info-header"></h1>
             <h3 id="${currentDateId}" class="info-date"></h3>
             <div class="inidicators-wrapper">
-                <ul class="inidicators-list">
-                    <li class="inidicators-item"><span class="${tempStateIND}"></span></li>
-                    <li class="inidicators-item"><span data-transl="feelsLike"></span><span class="${feelsLikeIND}"></span></li>
-                    <li class="inidicators-item"><span data-transl="wind"></span><span class="${windIND}"></span></li>
-                    <li class="inidicators-item"><span data-transl="humidity"></span><span class="${humidityIND}"></span></li>
-                </ul>
-                <ul class="inidicators-list">
-                    <li class="inidicators-item"><span class="${tempStateIND}"></span></li>
-                    <li class="inidicators-item"><span data-transl="feelsLike"></span><span class="${feelsLikeIND}"></span></li>
-                    <li class="inidicators-item"><span data-transl="wind"></span><span class="${windIND}"></span></li>
-                    <li class="inidicators-item"><span data-transl="humidity"></span><span class="${humidityIND}"></span></li>
-                </ul>
-                <ul class="inidicators-list">
-                    <li class="inidicators-item"><span class="${tempStateIND}"></span></li>
-                    <li class="inidicators-item"><span data-transl="feelsLike"></span><span class="${feelsLikeIND}"></span></li>
-                    <li class="inidicators-item"><span data-transl="wind"></span><span class="${windIND}"></span></li>
-                    <li class="inidicators-item"><span data-transl="humidity"></span><span class="${humidityIND}"></span></li>
-                </ul>
+                <div id="${INDlistBlock}">
+                    <h2 class="${INDlistHeader}"></h2>
+                    <ul class="inidicators-list">
+                        <li class="inidicators-item"><span class="${currentTemperatureIND}"></span></li>
+                        <li class="inidicators-item"><span class="${tempStateIND}"></span></li>
+                        <li class="inidicators-item"><span data-transl="feelsLike"></span><span class="${feelsLikeIND}"></span></li>
+                        <li class="inidicators-item"><span data-transl="wind"></span><span class="${windIND}"></span></li>
+                        <li class="inidicators-item"><span data-transl="humidity"></span><span class="${humidityIND}"></span></li>
+                    </ul>
+                </div>
+                <div class="${INDlistBlock}">
+                    <h2 id="${INDlistHeader}"></h2>
+                    <ul class="inidicators-list">
+                        <li class="inidicators-item"><span class="${currentTemperatureIND}"></span></li>
+                        <li class="inidicators-item"><span class="${tempStateIND}"></span></li>
+                        <li class="inidicators-item"><span data-transl="feelsLike"></span><span class="${feelsLikeIND}"></span></li>
+                        <li class="inidicators-item"><span data-transl="wind"></span><span class="${windIND}"></span></li>
+                        <li class="inidicators-item"><span data-transl="humidity"></span><span class="${humidityIND}"></span></li>
+                    </ul>
+                </div>
+                <div class="${INDlistBlock}">
+                    <h2 class="${INDlistHeader}"></h2>
+                    <ul class="inidicators-list">
+                        <li class="inidicators-item"><span class="${currentTemperatureIND}"></span></li>
+                        <li class="inidicators-item"><span class="${tempStateIND}"></span></li>
+                        <li class="inidicators-item"><span data-transl="feelsLike"></span><span class="${feelsLikeIND}"></span></li>
+                        <li class="inidicators-item"><span data-transl="wind"></span><span class="${windIND}"></span></li>
+                        <li class="inidicators-item"><span data-transl="humidity"></span><span class="${humidityIND}"></span></li>
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="map-container">

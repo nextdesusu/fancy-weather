@@ -9,7 +9,9 @@ import {
     formSubmitId,
     cityNameId,
     currentDateId,
-    currentTemperatureId,
+    INDlistBlock,
+    INDlistHeader,
+    currentTemperatureIND,
     tempStateIND,
     feelsLikeIND,
     windIND,
@@ -21,7 +23,7 @@ import {
 import { TEN_MINUTES } from "./Consts";
 import { GetWeatherData, GetLocation, GetCityImage, createMap } from "./SideAPI";
 import { WEATHER_KEY, LOCATION_KEY, IMAGE_KEY, MAP_KEY } from "./SecretKeys";
-import Translate from "./Translate";
+import { Translate, getDaysByLanguage } from "./Translate";
 
 export default class WeatherApp {
     constructor(rootNode, days){
@@ -31,7 +33,8 @@ export default class WeatherApp {
         this.__background = null;
         this.__cityNameNode = null;
         this.__currentDateNode = null;
-        this.__tempNode = null;
+        this.__listHeaders = null;
+        this.__tempNodes = null;
         this.__tempStateNodes = null;
         this.__feelsLikeNodes = null;
         this.__windNodes = null;
@@ -70,6 +73,7 @@ export default class WeatherApp {
         Translate(lang, toTranslate);
         this.__language = lang;
         localStorage.setItem("weather-language", lang);
+        this.updateDate(lang);
     }
 
     changeMeasureScale(newScale){
@@ -78,11 +82,14 @@ export default class WeatherApp {
         localStorage.setItem("weather-scale", scale);
     }
 
-    updateDate(){
+    updateDate(lang){
         const currentDate = new Date();
-        const language = this.__language;
-        const localeDate = currentDate.toLocaleDateString(language);
+        const localeDate = currentDate.toLocaleDateString(lang);
         this.__currentDateNode.innerText = localeDate;
+        const days = getDaysByLanguage(lang);
+        const currentDay = currentDate.getDay();
+        const days3 = days.slice(currentDay, currentDay + 3);
+        console.log(days3);
     }
 
     updateIndicators(weatherData){
@@ -90,6 +97,7 @@ export default class WeatherApp {
         for (let day = 0; day < days; day++){
             const dailyData = weatherData[day];
             const { main, weather, wind } = dailyData;
+            this.__tempNodes[day].innerText = main.temp;
             this.__tempStateNodes[day].innerText = weather[0].main;
             this.__feelsLikeNodes[day].innerText = main.feels_like;
             this.__windNodes[day].innerText = wind.speed;
@@ -147,7 +155,6 @@ export default class WeatherApp {
             this.__coords.latitude = coords.latitude;
             this.__coords.longitude = coords.longitude;
             this.updateMap();
-            console.log(this.__coords)
         };
         const error = (err) => console.log("error:", err);
         navigator.geolocation.getCurrentPosition(succes, error, posOptions);
@@ -165,15 +172,17 @@ export default class WeatherApp {
         this.__background = document.querySelector(`#${backgroundId}`);
         this.__cityNameNode = document.querySelector(`#${cityNameId}`);
         this.__currentDateNode = document.querySelector(`#${currentDateId}`);
-        this.__tempNode = document.querySelector(`#${currentTemperatureId}`);
-
+        
+        const listBlocks = document.querySelectorAll(`.${INDlistBlock}`);
+        this.__listHeaders = document.querySelectorAll(`.${INDlistHeader}`);
+        this.__tempNodes = document.querySelectorAll(`.${currentTemperatureIND}`);
         this.__tempStateNodes = document.querySelectorAll(`.${tempStateIND}`);
         this.__feelsLikeNodes = document.querySelectorAll(`.${feelsLikeIND}`);
         this.__windNodes = document.querySelectorAll(`.${windIND}`);
         this.__humidityNodes = document.querySelectorAll(`.${humidityIND}`);
         this.__latitudeNode = document.querySelector(`#${latitudeId}`);
         this.__longitudeNode = document.querySelector(`#${longitudeId}`);
-
+        
         const updateButton = document.querySelector(`#${UpdateButtonId}`);
         const searchInput = document.querySelector(`#${formInputId}`);
         const searchButton = document.querySelector(`#${formSubmitId}`);
@@ -215,10 +224,17 @@ export default class WeatherApp {
             this.translateTo(selectedLanguage);
         }
 
+        for (let block of listBlocks){
+            console.log(block)
+            block.onclick = () => {
+                console.log()
+            }
+        }
+
         const locationCity = cityQuery.city;
         //this.updateWeather(locationCity);
+        //this.changeCity(locationCity);
         this.getCurrentPosition();
-        this.updateDate();
         const currentLang = this.__language;
         this.translateTo(currentLang);
     }

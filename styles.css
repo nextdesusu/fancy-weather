@@ -62,7 +62,7 @@ form {
   
 
 #backgroundId {
-    width: 640px;
+    width: 840px;
     margin: auto auto;
     background-repeat: no-repeat;
     background-size: cover;
@@ -71,7 +71,7 @@ form {
     border-radius: 1em;
 }
 
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 840px) {
     #backgroundId {
         width: 280px;
         box-shadow: none;
@@ -94,7 +94,7 @@ button, input {
     grid-gap: 2em;
 }
 
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 840px) {
     .app-header {
         grid-template-columns: none;
         grid-template-rows: 1fr 1fr;
@@ -104,18 +104,27 @@ button, input {
 
 .settings {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     justify-content: space-between;
     align-items: center;
     grid-gap: 0.5em;
 }
 
+.checkbox-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
 .settings__elem, .checkbox-checkmark {
     cursor: pointer;
-    border-radius: 0.5em;
     box-shadow: 1px 3px 10px rgba(0, 0, 0, 0.61);
     width: 100%;
     height: 100%;
+}
+
+.settings__elem, .checkbox-wrapper {
+    overflow: hidden;
+    border-radius: 0.5em;
 }
 
 .checkbox-checkmark {
@@ -160,10 +169,23 @@ button, input {
     padding: 0px;
 }
 
-@media screen and (max-width: 640px) {
+.inidicators-wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media screen and (max-width: 840px) {
     .app-main {
         grid-template-columns: none;
         grid-template-rows: auto auto;
+        justify-content: center;
+    }
+    .inidicators-wrapper {
+        grid-template-rows: repeat(3, 1fr);
+        grid-template-columns: none !important;
+        justify-content: center;
     }
 }
 

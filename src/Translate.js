@@ -14,6 +14,9 @@ const EN = {
     "logitude": "logitude"
 }
 
+const daysRu = ['воскресенье', 'понедельник', 'вторник', 'среда', 'Ччетверг', 'пятница', 'суббота'];
+const daysEn = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+
 function changeLang(translateTo, nodes){
     for (let node of nodes){
         const key = node.getAttribute("data-transl");
@@ -24,7 +27,7 @@ function changeLang(translateTo, nodes){
     }
 }
 
-export default function Translate(lang, nodes){
+export function Translate(lang, nodes){
     switch(lang){
         case "ru":
             changeLang(RU, nodes);
@@ -32,5 +35,14 @@ export default function Translate(lang, nodes){
         case "en":
             changeLang(EN, nodes);
             break;
+    }
+}
+
+export function getDaysByLanguage(lang){
+    switch(lang){
+        case "ru":
+            return daysRu;
+        case "en":
+            return daysEn;
     }
 }
