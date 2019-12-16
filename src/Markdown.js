@@ -23,7 +23,7 @@ import {
 const md = `
     <div class="app-header">
         <div class="settings">
-            <button class="settings__elem" id="${UpdateButtonId}">Update</button>
+            <button data-transl="update" class="settings__elem" id="${UpdateButtonId}">Update</button>
             <select id="${langOptionsId}" class="settings__elem lang-list">
                 <option value="EN">EN</option>
                 <option value="RU">RU</option>
@@ -31,12 +31,12 @@ const md = `
             <div class="settings__elem checkbox-wrapper">
                 <label class="checkbox-container">
                     <span>c</span>
-                    <input value="CEL" class="checkbox-elem" type="radio" name="${measureUnitsName}">
+                    <input value="c" class="checkbox-elem" type="radio" name="${measureUnitsName}">
                     <span class="checkbox-checkmark"></span>
                 </label>
                 <label class="checkbox-container">
                     <span>f</span>
-                    <input value="FAR" class="checkbox-elem" type="radio" name="${measureUnitsName}">
+                    <input value="f" class="checkbox-elem" type="radio" name="${measureUnitsName}">
                     <span class="checkbox-checkmark"></span>
                 </label>
             </div>
@@ -54,31 +54,70 @@ const md = `
                 <div id="${INDlistBlock}">
                     <h2 class="${INDlistHeader}"></h2>
                     <ul class="inidicators-list">
-                        <li class="inidicators-item"><span class="${currentTemperatureIND}"></span></li>
-                        <li class="inidicators-item"><span class="${tempStateIND}"></span></li>
-                        <li class="inidicators-item"><span data-transl="feelsLike"></span><span class="${feelsLikeIND}"></span></li>
-                        <li class="inidicators-item"><span data-transl="wind"></span><span class="${windIND}"></span></li>
-                        <li class="inidicators-item"><span data-transl="humidity"></span><span class="${humidityIND}"></span></li>
+                        <li class="inidicators-item">
+                            <span data-temp="c" class="${currentTemperatureIND}"></span>
+                        </li>
+                        <li class="inidicators-item">
+                            <img class="${tempStateIND}" src="">
+                        </li>
+                        <li class="inidicators-item">
+                            <span data-transl="feelsLike"></span>
+                            <span data-temp="c" class="${feelsLikeIND}"></span>
+                        </li>
+                        <li class="inidicators-item">
+                            <span data-transl="wind"></span>
+                            <span class="${windIND}"></span>
+                        </li>
+                        <li class="inidicators-item">
+                            <span data-transl="humidity">
+                            </span><span class="${humidityIND}"></span>
+                        </li>
                     </ul>
                 </div>
                 <div class="${INDlistBlock}">
                     <h2 class="${INDlistHeader}"></h2>
                     <ul class="inidicators-list">
-                        <li class="inidicators-item"><span class="${currentTemperatureIND}"></span></li>
-                        <li class="inidicators-item"><span class="${tempStateIND}"></span></li>
-                        <li class="inidicators-item"><span data-transl="feelsLike"></span><span class="${feelsLikeIND}"></span></li>
-                        <li class="inidicators-item"><span data-transl="wind"></span><span class="${windIND}"></span></li>
-                        <li class="inidicators-item"><span data-transl="humidity"></span><span class="${humidityIND}"></span></li>
+                        <li class="inidicators-item">
+                            <span data-temp="c" class="${currentTemperatureIND}"></span>
+                        </li>
+                        <li class="inidicators-item">
+                            <img class="${tempStateIND}" src="">
+                        </li>
+                        <li class="inidicators-item">
+                            <span data-transl="feelsLike"></span>
+                            <span data-temp="c" class="${feelsLikeIND}"></span>
+                        </li>
+                        <li class="inidicators-item">
+                            <span data-transl="wind"></span>
+                            <span class="${windIND}"></span>
+                        </li>
+                        <li class="inidicators-item">
+                            <span data-transl="humidity"></span>
+                            <span class="${humidityIND}"></span>
+                        </li>
                     </ul>
                 </div>
                 <div class="${INDlistBlock}">
                     <h2 class="${INDlistHeader}"></h2>
                     <ul class="inidicators-list">
-                        <li class="inidicators-item"><span class="${currentTemperatureIND}"></span></li>
-                        <li class="inidicators-item"><span class="${tempStateIND}"></span></li>
-                        <li class="inidicators-item"><span data-transl="feelsLike"></span><span class="${feelsLikeIND}"></span></li>
-                        <li class="inidicators-item"><span data-transl="wind"></span><span class="${windIND}"></span></li>
-                        <li class="inidicators-item"><span data-transl="humidity"></span><span class="${humidityIND}"></span></li>
+                        <li class="inidicators-item">
+                            <span data-temp="c" class="${currentTemperatureIND}"></span>
+                        </li>
+                        <li class="inidicators-item">
+                            <img class="${tempStateIND}" src="">
+                        </li>
+                        <li class="inidicators-item">
+                            <span data-transl="feelsLike"></span>
+                            <span data-temp="c" class="${feelsLikeIND}"></span>
+                        </li>
+                        <li class="inidicators-item">
+                            <span data-transl="wind"></span>
+                            <span class="${windIND}"></span>
+                        </li>
+                        <li class="inidicators-item">
+                            <span data-transl="humidity"></span>
+                            <span class="${humidityIND}"></span>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -87,8 +126,14 @@ const md = `
             <div id="${mapContainerId}" class="map"></div>
             <div class="map-coordinates">
                 <ul class="coordinates-list">
-                    <li class="coordinates-item"><span data-transl="latitude"></span><span id="${latitudeId}"></span></li>
-                    <li class="coordinates-item"><span data-transl="logitude"></span><span id="${longitudeId}"></span></li>
+                    <li class="coordinates-item">
+                        <span data-transl="latitude"></span>
+                        <span id="${latitudeId}"></span>
+                    </li>
+                    <li class="coordinates-item">
+                        <span data-transl="logitude"></span>
+                        <span id="${longitudeId}"></span>
+                    </li>
                 </ul>
             </div>
         </div>

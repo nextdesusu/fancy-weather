@@ -176,6 +176,10 @@ button, input {
     align-items: center;
 }
 
+.INDlistHeader {
+    text-transform: capitalize;
+}
+
 @media screen and (max-width: 840px) {
     .app-main {
         grid-template-columns: none;

@@ -33,3 +33,7 @@ export async function createMap(accesKey, containerId, lng, lat){
     const map = new Map(accesKey, containerId, pointSize, animatonLast, startingZoom, lng, lat);
     return map;
 }
+
+export function getImageUrl(iconName){
+    return `http://openweathermap.org/img/wn/${iconName}@2x.png`;
+}
