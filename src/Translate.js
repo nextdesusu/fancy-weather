@@ -14,8 +14,8 @@ const EN = {
     "logitude": "logitude"
 }
 
-const daysRu = ['воскресенье', 'понедельник', 'вторник', 'среда', 'Ччетверг', 'пятница', 'суббота'];
-const daysEn = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+const daysRu = ["вск", "пнд", "втр", "срд", "чтв", "птн", "сбт"];
+const daysEn = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
 function changeLang(translateTo, nodes){
     for (let node of nodes){
@@ -44,5 +44,32 @@ export function getDaysByLanguage(lang){
             return daysRu;
         case "en":
             return daysEn;
+    }
+}
+
+export function getPlaceholderText(lang){
+    switch(lang){
+        case "ru":
+            return "Введите название города";
+        case "en":
+            return "Input city name";
+    }
+}
+
+export function getSubmitText(lang){
+    switch(lang){
+        case "ru":
+            return "Отправить";
+        case "en":
+            return "Submit";
+    }
+}
+
+export function getUpdateButtonText(lang){
+    switch(lang){
+        case "ru":
+            return "Обновить";
+        case "en":
+            return "Update";
     }
 }

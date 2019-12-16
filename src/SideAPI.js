@@ -29,7 +29,7 @@ export async function GetCityImage(cityName, accesKey){
 export async function createMap(accesKey, containerId, lng, lat){
     const pointSize = 200;
     const animatonLast = 2000;
-    const startingZoom = 9;
+    const startingZoom = 2;
     const map = new Map(accesKey, containerId, pointSize, animatonLast, startingZoom, lng, lat);
     return map;
 }

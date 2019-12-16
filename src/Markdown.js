@@ -62,7 +62,7 @@ const md = `
                     </ul>
                 </div>
                 <div class="${INDlistBlock}">
-                    <h2 id="${INDlistHeader}"></h2>
+                    <h2 class="${INDlistHeader}"></h2>
                     <ul class="inidicators-list">
                         <li class="inidicators-item"><span class="${currentTemperatureIND}"></span></li>
                         <li class="inidicators-item"><span class="${tempStateIND}"></span></li>

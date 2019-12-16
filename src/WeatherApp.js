@@ -23,7 +23,7 @@ import {
 import { TEN_MINUTES } from "./Consts";
 import { GetWeatherData, GetLocation, GetCityImage, createMap } from "./SideAPI";
 import { WEATHER_KEY, LOCATION_KEY, IMAGE_KEY, MAP_KEY } from "./SecretKeys";
-import { Translate, getDaysByLanguage } from "./Translate";
+import { Translate, getDaysByLanguage, getPlaceholderText, getSubmitText, getUpdateButtonText } from "./Translate";
 
 export default class WeatherApp {
     constructor(rootNode, days){
@@ -34,6 +34,7 @@ export default class WeatherApp {
         this.__cityNameNode = null;
         this.__currentDateNode = null;
         this.__listHeaders = null;
+
         this.__tempNodes = null;
         this.__tempStateNodes = null;
         this.__feelsLikeNodes = null;
@@ -74,6 +75,15 @@ export default class WeatherApp {
         this.__language = lang;
         localStorage.setItem("weather-language", lang);
         this.updateDate(lang);
+
+        const inputNode = document.querySelector(`#${formInputId}`);
+        inputNode.placeholder = getPlaceholderText(lang);
+
+        const submitNode = document.querySelector(`#${formSubmitId}`);
+        submitNode.value = getSubmitText(lang);
+
+        const updateButton = document.querySelector(`#${UpdateButtonId}`);
+        updateButton.innerText = getUpdateButtonText(lang);
     }
 
     changeMeasureScale(newScale){
@@ -86,10 +96,16 @@ export default class WeatherApp {
         const currentDate = new Date();
         const localeDate = currentDate.toLocaleDateString(lang);
         this.__currentDateNode.innerText = localeDate;
+        const headerNodes = document.querySelectorAll(`.${INDlistHeader}`);
         const days = getDaysByLanguage(lang);
         const currentDay = currentDate.getDay();
-        const days3 = days.slice(currentDay, currentDay + 3);
-        console.log(days3);
+        const daysOfprognose = this.__daysOfprognose;
+        const daysHeaders = days.slice(currentDay, currentDay + daysOfprognose);
+        for (let day = 0; day < daysOfprognose; day++){
+            const curentDay = daysHeaders[day];
+            headerNodes[day].innerText = curentDay;
+        }
+        //console.log(days3);
     }
 
     updateIndicators(weatherData){
@@ -128,7 +144,6 @@ export default class WeatherApp {
             i have to made a new one because weather is updated*/
             const language = this.__language;
             const query = await GetWeatherData(cityName, language, WEATHER_KEY);
-            console.log("query is", query);
             if (query.cod !== "200"){
                 console.log(query.message)
                 return;
@@ -141,7 +156,6 @@ export default class WeatherApp {
         }
         this.updateIndicators(weatherData);
         this.setRandomCityImage();
-        console.log("weatherData is", weatherData);
     }
 
     async getCurrentPosition(){
@@ -232,8 +246,7 @@ export default class WeatherApp {
         }
 
         const locationCity = cityQuery.city;
-        //this.updateWeather(locationCity);
-        //this.changeCity(locationCity);
+        this.updateWeather(locationCity);
         this.getCurrentPosition();
         const currentLang = this.__language;
         this.translateTo(currentLang);
