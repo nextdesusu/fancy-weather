@@ -1,24 +1,25 @@
+/* eslint-disable no-undef */
 import {
-    backgroundId,
-    UpdateButtonId,
-    langOptionsId,
-    measureUnitsName,
-    formId,
-    formInputId,
-    formSubmitId,
-    cityNameId,
-    currentDateId,
-    INDlistBlock,
-    INDlistHeader,
-    currentTemperatureIND,
-    tempStateIND,
-    feelsLikeIND,
-    windIND,
-    humidityIND,
-    latitudeId,
-    longitudeId,
-    mapContainerId
-} from "./NodeData";
+  backgroundId,
+  UpdateButtonId,
+  langOptionsId,
+  measureUnitsName,
+  formId,
+  formInputId,
+  formSubmitId,
+  cityNameId,
+  currentDateId,
+  INDlistBlock,
+  INDlistHeader,
+  currentTemperatureIND,
+  tempStateIND,
+  feelsLikeIND,
+  windIND,
+  humidityIND,
+  latitudeId,
+  longitudeId,
+  mapContainerId,
+} from './NodeData';
 
 const md = `
     <div class="app-header">
@@ -126,9 +127,9 @@ const md = `
             </div>
         </div>
     </div>
-`
+`;
 
-const Markdown = document.createElement("div");
+const Markdown = document.createElement('div');
 Markdown.innerHTML = md;
 Markdown.id = backgroundId;
 

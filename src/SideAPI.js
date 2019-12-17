@@ -1,39 +1,37 @@
-import Map from "./MapAPI";
+/* eslint-disable no-undef */
+import Map from './MapAPI';
 
-const TIME = "18:00:00";
-
-export async function GetWeatherData(city, lang, accesKey){
-    //EXAMPLE: api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=b337884c51dfe2c971db7e082be5b260
-    //const url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&APPID=${accesKey}`;
-    const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&lang=${lang}&units=metric&APPID=${accesKey}`;
-    const response = await fetch(url);
-    const json = await response.json();
-    return json;
+export async function GetWeatherData(city, lang, accesKey) {
+  // const url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&APPID=${accesKey}`;
+  const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&lang=${lang}&units=metric&APPID=${accesKey}`;
+  const response = await fetch(url);
+  const json = await response.json();
+  return json;
 }
 
-export async function GetLocation(accesKey){
-    const url = `https://ipinfo.io/json?token=${accesKey}`;
-    const response = await fetch(url);
-    const json = await response.json();
-    return json;
+export async function GetLocation(accesKey) {
+  const url = `https://ipinfo.io/json?token=${accesKey}`;
+  const response = await fetch(url);
+  const json = await response.json();
+  return json;
 }
 
-export async function GetCityImage(cityName, accesKey){
-    const url = `https://api.unsplash.com/photos/random?query=town,${cityName}&client_id=${accesKey}`;
-    const urls = await fetch(url);
-    const json = await urls.json();
-    const blob = await json.urls.small;
-    return blob;
+export async function GetCityImage(cityName, accesKey) {
+  const url = `https://api.unsplash.com/photos/random?query=town,${cityName}&client_id=${accesKey}`;
+  const urls = await fetch(url);
+  const json = await urls.json();
+  const blob = await json.urls.small;
+  return blob;
 }
 
-export async function createMap(accesKey, containerId, lng, lat){
-    const pointSize = 200;
-    const animatonLast = 2000;
-    const startingZoom = 2;
-    const map = new Map(accesKey, containerId, pointSize, animatonLast, startingZoom, lng, lat);
-    return map;
+export async function createMap(accesKey, containerId, lng, lat) {
+  const pointSize = 200;
+  const animatonLast = 2000;
+  const startingZoom = 2;
+  const map = new Map(accesKey, containerId, pointSize, animatonLast, startingZoom, lng, lat);
+  return map;
 }
 
-export function getImageUrl(iconName){
-    return `http://openweathermap.org/img/wn/${iconName}@2x.png`;
+export function getImageUrl(iconName) {
+  return `http://openweathermap.org/img/wn/${iconName}@2x.png`;
 }
