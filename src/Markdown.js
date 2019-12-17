@@ -51,15 +51,11 @@ const md = `
             <h1 id="${cityNameId}" class="info-header"></h1>
             <h3 id="${currentDateId}" class="info-date"></h3>
             <div class="inidicators-wrapper">
-                <div id="${INDlistBlock}">
+                <div class="${INDlistBlock}">
                     <h2 class="${INDlistHeader}"></h2>
+                    <h3 data-temp="c" class="${currentTemperatureIND}"></h3>
+                    <img class="${tempStateIND}" src="">
                     <ul class="inidicators-list">
-                        <li class="inidicators-item">
-                            <span data-temp="c" class="${currentTemperatureIND}"></span>
-                        </li>
-                        <li class="inidicators-item">
-                            <img class="${tempStateIND}" src="">
-                        </li>
                         <li class="inidicators-item">
                             <span data-transl="feelsLike"></span>
                             <span data-temp="c" class="${feelsLikeIND}"></span>
@@ -76,13 +72,9 @@ const md = `
                 </div>
                 <div class="${INDlistBlock}">
                     <h2 class="${INDlistHeader}"></h2>
+                    <h3 data-temp="c" class="${currentTemperatureIND}"></h3>
+                    <img class="${tempStateIND}" src="">
                     <ul class="inidicators-list">
-                        <li class="inidicators-item">
-                            <span data-temp="c" class="${currentTemperatureIND}"></span>
-                        </li>
-                        <li class="inidicators-item">
-                            <img class="${tempStateIND}" src="">
-                        </li>
                         <li class="inidicators-item">
                             <span data-transl="feelsLike"></span>
                             <span data-temp="c" class="${feelsLikeIND}"></span>
@@ -99,13 +91,9 @@ const md = `
                 </div>
                 <div class="${INDlistBlock}">
                     <h2 class="${INDlistHeader}"></h2>
+                    <h3 data-temp="c" class="${currentTemperatureIND}"></h3>
+                    <img class="${tempStateIND}" src="">
                     <ul class="inidicators-list">
-                        <li class="inidicators-item">
-                            <span data-temp="c" class="${currentTemperatureIND}"></span>
-                        </li>
-                        <li class="inidicators-item">
-                            <img class="${tempStateIND}" src="">
-                        </li>
                         <li class="inidicators-item">
                             <span data-transl="feelsLike"></span>
                             <span data-temp="c" class="${feelsLikeIND}"></span>

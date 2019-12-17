@@ -112,7 +112,6 @@ export default class WeatherApp {
             const curentDay = daysHeaders[day];
             headerNodes[day].innerText = curentDay;
         }
-        //console.log(days3);
     }
 
     updateIndicators(weatherData){
@@ -166,7 +165,6 @@ export default class WeatherApp {
         this.updateIndicators(weatherData);
         this.setRandomCityImage();
         this.changeMeasureScale(measureScale);
-        console.log("weatherData:", weatherData);
     }
 
     async getCurrentPosition(){
@@ -249,9 +247,13 @@ export default class WeatherApp {
         }
 
         for (let block of listBlocks){
-            block.onclick = () => {
-                console.log()
+            block.onmouseover = () => {
+                block.classList.add("focused-block");
             }
+            block.onmouseout = () => {
+                block.classList.remove("focused-block");
+            }
+
         }
 
         const locationCity = cityQuery.city;

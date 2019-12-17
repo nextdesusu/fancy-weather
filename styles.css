@@ -167,6 +167,7 @@ button, input {
     justify-content: space-between;
     grid-gap: 2em;
     padding: 0px;
+    color: rgb(63, 61, 61);
 }
 
 .inidicators-wrapper {
@@ -176,8 +177,19 @@ button, input {
     align-items: center;
 }
 
+.inidicators-list {
+    font-size: 0.7em;
+}
+
 .INDlistHeader {
     text-transform: capitalize;
+}
+
+.INDlistBlock {
+    border: 1px solid rgba(0, 0, 0, 0);
+    border-radius: 1em;
+    padding: 0.5em;
+    transition: border-color .3s;
 }
 
 @media screen and (max-width: 840px) {
@@ -233,4 +245,8 @@ button, input {
     background-color: rgb(199, 182, 182);
     border-radius: 1em;
     align-self: center;
+}
+
+.focused-block {
+    border-color: black;
 }

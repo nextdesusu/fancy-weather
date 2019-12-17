@@ -7,7 +7,7 @@ const RU = {
 };
 
 const EN = {
-    "feelsLike": "feels Like",
+    "feelsLike": "feels like",
     "wind": "wind",
     "humidity": "humidity",
     "latitude": "latitude",
