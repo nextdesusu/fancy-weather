@@ -25,7 +25,7 @@ export async function GetCityImage(cityName, accesKey) {
 }
 
 export async function createMap(accesKey, containerId, lng, lat) {
-  const pointSize = 200;
+  const pointSize = 250;
   const animatonLast = 2000;
   const startingZoom = 2;
   const map = new Map(accesKey, containerId, pointSize, animatonLast, startingZoom, lng, lat);
@@ -34,4 +34,12 @@ export async function createMap(accesKey, containerId, lng, lat) {
 
 export function getImageUrl(iconName) {
   return `http://openweathermap.org/img/wn/${iconName}@2x.png`;
+}
+
+
+export async function getLocationByCityName(accesKey, cityName) {
+  const url = `https://api.opencagedata.com/geocode/v1/json?q=${cityName}&key=${accesKey}&pretty=1&no_annotations=1`;
+  const response = await fetch(url);
+  const json = await response.json();
+  return json;
 }

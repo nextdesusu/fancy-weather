@@ -241,8 +241,11 @@ button, input {
 }
 
 .map {
+    position: absolute;
     width: 250px;
     height: 250px;
+    top: 0;
+    bottom: 0;
     background-color: rgb(199, 182, 182);
     border-radius: 1em;
     align-self: center;

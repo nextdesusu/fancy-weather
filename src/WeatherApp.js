@@ -26,10 +26,10 @@ import {
   mapContainerId,
 } from './NodeData';
 import {
-  GetWeatherData, GetLocation, GetCityImage, createMap, getImageUrl,
+  GetWeatherData, GetLocation, GetCityImage, createMap, getImageUrl, getLocationByCityName,
 } from './SideAPI';
 import {
-  WEATHER_KEY, LOCATION_KEY, IMAGE_KEY, MAP_KEY,
+  WEATHER_KEY, LOCATION_KEY, IMAGE_KEY, MAP_KEY, GEOCODE_KEY,
 } from './SecretKeys';
 import {
   Translate, getDaysByLanguage, getPlaceholderText, getSubmitText, getUpdateButtonText,
@@ -73,7 +73,7 @@ export default class WeatherApp {
       const cityImage = await GetCityImage(cityName, IMAGE_KEY);
       this.__background.style.backgroundImage = `url(${cityImage})`;
     } catch (e) {
-      console.log('Unfortunatelly something gone wrong!');
+      console.log('Failed to get new city image!');
     }
   }
 
@@ -147,13 +147,28 @@ export default class WeatherApp {
     const { latitude, longitude } = this.__coords;
     this.__latitudeNode.innerText = latitude;
     this.__longitudeNode.innerText = longitude;
-    if (this.__map === null) {
-      const newMap = createMap(MAP_KEY, mapContainerId, latitude, longitude);
-      this.__map = newMap;
+    try {
+      createMap(MAP_KEY, mapContainerId, latitude, longitude);
+    } catch (e) {
+      console.log('Failed to locate!');
     }
   }
 
-  async updateWeather(city) {
+  async getCityLocation(cityName){
+    try {
+      const query = await getLocationByCityName(GEOCODE_KEY, cityName);
+      const coords = query.results[0].geometry;
+      this.__coords = {
+        latitude: coords.lat,
+        longitude: coords.lng,
+      };
+      this.updateMap();
+    } catch (e) {
+      console.log('Failed to get city location!');
+    }
+  }
+
+  async updateWeather(city, initial) {
     const cityName = city.toLowerCase();
     await this.changeCity(cityName);
     const measureScale = this.__measureScale;
@@ -178,8 +193,9 @@ export default class WeatherApp {
       weatherData = newData;
     }
     this.updateIndicators(weatherData);
-    this.setRandomCityImage();
     this.changeMeasureScale(measureScale);
+    if (initial) this.getCurrentPosition();
+    else this.getCityLocation(cityName);
   }
 
   async getCurrentPosition() {
@@ -252,7 +268,7 @@ export default class WeatherApp {
     searchButton.onclick = (e) => {
       e.preventDefault();
       const cityName = searchInput.value;
-      this.updateWeather(cityName);
+      this.updateWeather(cityName, false);
     };
 
     langOptionsNode.onchange = () => {
@@ -271,8 +287,7 @@ export default class WeatherApp {
     }
 
     const locationCity = cityQuery.city;
-    this.updateWeather(locationCity);
-    this.getCurrentPosition();
+    this.updateWeather(locationCity, true);
     const currentLang = this.__language;
     this.translateTo(currentLang);
   }
