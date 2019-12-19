@@ -1,6 +1,8 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable max-classes-per-file */
+import mapboxgl from 'mapbox-gl';
+
 class PulsingDot {
   constructor(map, size, duration) {
     this.__map = map;
@@ -91,10 +93,12 @@ class Map {
       zoom: startingZoom, // starting zoom
     });
     const pulsingDot = new PulsingDot(map, pointSize, animationLasts);
+    this.__map = map;
+    this.__pulsingDot = pulsingDot;
     map.on('load', () => {
       map.addImage('pulsing-dot', pulsingDot, { pixelRatio: 2 });
       map.addLayer({
-        id: 'points',
+        id: 'pointID',
         type: 'symbol',
         source: {
           type: 'geojson',
@@ -117,6 +121,18 @@ class Map {
       });
     });
   }
-}
 
+  flyTo(lng, lat) {
+    const map = this.__map;
+    const coords = [lng, lat];
+    map.flyTo({
+      center: coords,
+      essential: true,
+    });
+    const pop = new mapboxgl.Popup();
+    pop.setLngLat(coords);
+    pop.setHTML('<h3>Here!</h3>');
+    pop.addTo(map);
+  }
+}
 export default Map;

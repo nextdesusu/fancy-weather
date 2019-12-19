@@ -80,7 +80,11 @@ export default class WeatherApp {
   async changeCity(cityName) {
     this.__city = cityName;
     this.__cityNameNode.innerText = cityName;
-    this.setRandomCityImage();
+    try {
+      this.setRandomCityImage();
+    } catch (e) {
+      console.log('Failed to change city');
+    }
   }
 
   translateTo(newLang) {
@@ -122,7 +126,11 @@ export default class WeatherApp {
     const days = getDaysByLanguage(lang);
     const currentDay = currentDate.getDay();
     const daysOfprognose = this.__daysOfprognose;
-    const daysHeaders = days.slice(currentDay, currentDay + daysOfprognose);
+    const maxDays = 7;
+    const day1 = days[currentDay];
+    const day2 = days[(currentDay + 1) % maxDays];
+    const day3 = days[(currentDay + 2) % maxDays];
+    const daysHeaders = [day1, day2, day3];
     for (let day = 0; day < daysOfprognose; day++) {
       const curentDay = daysHeaders[day];
       headerNodes[day].innerText = curentDay;
@@ -145,16 +153,22 @@ export default class WeatherApp {
 
   async updateMap() {
     const { latitude, longitude } = this.__coords;
-    this.__latitudeNode.innerText = latitude;
     this.__longitudeNode.innerText = longitude;
+    this.__latitudeNode.innerText = latitude;
     try {
-      createMap(MAP_KEY, mapContainerId, latitude, longitude);
+      if (this.__map === null) {
+        this.__map = await createMap(MAP_KEY, mapContainerId, longitude, latitude);
+      } else {
+        this.__map.flyTo(longitude, latitude);
+      }
     } catch (e) {
-      console.log('Failed to locate!');
+      console.log('Failed to update map!');
+      console.log(e);
+      console.log(this.__map);
     }
   }
 
-  async getCityLocation(cityName){
+  async getCityLocation(cityName) {
     try {
       const query = await getLocationByCityName(GEOCODE_KEY, cityName);
       const coords = query.results[0].geometry;

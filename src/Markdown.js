@@ -28,6 +28,7 @@ const md = `
             <select id="${langOptionsId}" class="settings__elem lang-list">
                 <option value="EN">EN</option>
                 <option value="RU">RU</option>
+                <option value="BE">BE</option>
             </select>
             <div class="settings__elem checkbox-wrapper">
                 <label class="checkbox-container">

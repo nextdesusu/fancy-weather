@@ -36,7 +36,6 @@ export function getImageUrl(iconName) {
   return `http://openweathermap.org/img/wn/${iconName}@2x.png`;
 }
 
-
 export async function getLocationByCityName(accesKey, cityName) {
   const url = `https://api.opencagedata.com/geocode/v1/json?q=${cityName}&key=${accesKey}&pretty=1&no_annotations=1`;
   const response = await fetch(url);
