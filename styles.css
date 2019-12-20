@@ -127,6 +127,14 @@ button, input {
     border-radius: 0.5em;
 }
 
+.settings__elem {
+    transition: box-shadow .4s;
+}
+
+.settings__elem:hover {
+    box-shadow: 3px 3px 10px rgb(0, 0, 0);
+}
+
 .checkbox-checkmark {
     position: absolute;
     top: 0;
@@ -189,7 +197,7 @@ button, input {
     border: 1px solid rgba(0, 0, 0, 0);
     border-radius: 1em;
     padding: 0.5em;
-    transition: border-color .3s;
+    transition: box-shadow .3s;
 }
 
 @media screen and (max-width: 840px) {
@@ -241,7 +249,6 @@ button, input {
 }
 
 .map {
-    position: absolute;
     width: 250px;
     height: 250px;
     top: 0;
@@ -252,5 +259,5 @@ button, input {
 }
 
 .focused-block {
-    border-color: black;
+    box-shadow: 3px 3px 10px rgb(0, 0, 0);
 }

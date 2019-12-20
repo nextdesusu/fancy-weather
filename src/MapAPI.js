@@ -131,7 +131,7 @@ class Map {
     });
     const pop = new mapboxgl.Popup();
     pop.setLngLat(coords);
-    pop.setHTML('<h3>Here!</h3>');
+    pop.setHTML('<h2>!</h2>');
     pop.addTo(map);
   }
 }
