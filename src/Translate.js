@@ -53,17 +53,27 @@ export function Translate(lang, nodes) {
   }
 }
 
-export function getDaysByLanguage(lang) {
+export function getDaysByLanguage(currentDay, lang) {
+  let days;
   switch (lang) {
     case 'ru':
-      return daysRu;
+      days = daysRu;
+      break;
     case 'en':
-      return daysEn;
+      days = daysEn;
+      break;
     case 'be':
-      return daysBe;
+      days = daysBe;
+      break;
     default:
       throw Error(`Unknown lang: ${lang}`);
   }
+  const maxDays = 7;
+  const day1 = days[currentDay];
+  const day2 = days[(currentDay + 1) % maxDays];
+  const day3 = days[(currentDay + 2) % maxDays];
+  const daysHeaders = [day1, day2, day3];
+  return daysHeaders;
 }
 
 export function getPlaceholderText(lang) {

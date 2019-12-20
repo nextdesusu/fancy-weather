@@ -43,17 +43,6 @@ export default class WeatherApp {
     this.__root = rootNode;
     this.__daysOfprognose = days;
 
-    this.__background = null;
-    this.__cityNameNode = null;
-    this.__currentDateNode = null;
-    this.__listHeaders = null;
-
-    this.__tempNodes = null;
-    this.__tempStateNodes = null;
-    this.__feelsLikeNodes = null;
-    this.__windNodes = null;
-    this.__humidityNodes = null;
-    this.__latitudeNode = null;
     this.__longitudeNode = null;
     this.__map = null;
 
@@ -61,6 +50,10 @@ export default class WeatherApp {
     this.__country = '';
     this.__language = '';
     this.__measureScale = '';
+    this.__tmp = {
+      currentTemperature: new Array(days),
+      feelsLike: new Array(days),
+    };
     this.__coords = {
       latitude: 0,
       longitude: 0,
@@ -71,7 +64,8 @@ export default class WeatherApp {
     const cityName = this.__city;
     try {
       const cityImage = await GetCityImage(cityName, IMAGE_KEY);
-      this.__background.style.backgroundImage = `url(${cityImage})`;
+      const background = document.querySelector(`#${backgroundId}`);
+      background.style.backgroundImage = `url(${cityImage})`;
     } catch (e) {
       console.log('Failed to get new city image!');
     }
@@ -79,7 +73,8 @@ export default class WeatherApp {
 
   async changeCity(cityName) {
     this.__city = cityName;
-    this.__cityNameNode.innerText = cityName;
+    const cityNameNode = document.querySelector(`#${cityNameId}`);
+    cityNameNode.innerText = cityName;
     try {
       this.setRandomCityImage();
     } catch (e) {
@@ -89,11 +84,9 @@ export default class WeatherApp {
 
   translateTo(newLang) {
     const lang = newLang.toLowerCase();
-    document.documentElement.lang = lang;
     const toTranslate = document.querySelectorAll('[data-transl]');
+    document.documentElement.lang = lang;
     Translate(lang, toTranslate);
-    this.__language = lang;
-    localStorage.setItem('weather-language', lang);
     this.updateDate(lang);
 
     const inputNode = document.querySelector(`#${formInputId}`);
@@ -104,15 +97,25 @@ export default class WeatherApp {
 
     const updateButton = document.querySelector(`#${UpdateButtonId}`);
     updateButton.innerText = getUpdateButtonText(lang);
+
+    this.__language = lang;
+    localStorage.setItem('weather-language', lang);
   }
 
   changeMeasureScale(newScale) {
-    const nodes = document.querySelectorAll('[data-temp]');
+    const nodesFeelsLike = document.querySelectorAll('[data-temp]');
+    const nodesTemp = document.querySelectorAll('[data-feelsLike]');
     const scale = newScale.toLowerCase();
-    for (const node of nodes) {
-      const oldScale = node.getAttribute('');
-      const value = node.innerText;
-      node.innerText = `${SwapMeasureScale(oldScale, scale, value)}`;
+    const days = this.__daysOfprognose;
+    const { currentTemperature, feelsLike } = this.__tmp;
+    for (let day = 0; day < days; day += 1) {
+      const tempNode = nodesTemp[day];
+      const tempNodeScale = tempNode.getAttribute('[data-temp]');
+      tempNode.innerText = SwapMeasureScale(tempNodeScale, newScale, currentTemperature[day]);
+
+      const feelsLikeNode = nodesFeelsLike[day];
+      const feelsLikeNodeScale = feelsLikeNode.getAttribute('[data-feelsLike]');
+      feelsLikeNode.innerText = SwapMeasureScale(feelsLikeNodeScale, newScale, feelsLike[day]);
     }
     this.__measureScale = scale;
     localStorage.setItem('weather-scale', scale);
@@ -121,40 +124,48 @@ export default class WeatherApp {
   updateDate(lang) {
     const currentDate = new Date();
     const localeDate = currentDate.toLocaleDateString(lang);
-    this.__currentDateNode.innerText = localeDate;
+    const currentDateNode = document.querySelector(`#${currentDateId}`);
     const headerNodes = document.querySelectorAll(`.${INDlistHeader}`);
-    const days = getDaysByLanguage(lang);
+    currentDateNode.innerText = localeDate;
     const currentDay = currentDate.getDay();
+    const days = getDaysByLanguage(currentDay, lang);
     const daysOfprognose = this.__daysOfprognose;
-    const maxDays = 7;
-    const day1 = days[currentDay];
-    const day2 = days[(currentDay + 1) % maxDays];
-    const day3 = days[(currentDay + 2) % maxDays];
-    const daysHeaders = [day1, day2, day3];
     for (let day = 0; day < daysOfprognose; day++) {
-      const curentDay = daysHeaders[day];
+      const curentDay = days[day];
       headerNodes[day].innerText = curentDay;
     }
   }
 
   updateIndicators(weatherData) {
     const days = this.__daysOfprognose;
+    const tempNodes = document.querySelectorAll(`.${currentTemperatureIND}`);
+    const tempStateNodes = document.querySelectorAll(`.${tempStateIND}`);
+    const feelsLikeNodes = document.querySelectorAll(`.${feelsLikeIND}`);
+    const windNodes = document.querySelectorAll(`.${windIND}`);
+    const humidityNodes = document.querySelectorAll(`.${humidityIND}`);
     for (let day = 0; day < days; day++) {
       const dailyData = weatherData[day];
       const { main, weather, wind } = dailyData;
-      this.__tempNodes[day].innerText = main.temp;
-      this.__tempStateNodes[day].src = getImageUrl(weather[0].icon);
-      this.__tempStateNodes[day].alt = weather[0].main;
-      this.__feelsLikeNodes[day].innerText = main.feels_like;
-      this.__windNodes[day].innerText = wind.speed;
-      this.__humidityNodes[day].innerText = main.humidity;
+      tempNodes[day].innerText = main.temp;
+      this.__tmp.currentTemperature[day] = main.temp;
+
+      tempStateNodes[day].src = getImageUrl(weather[0].icon);
+      tempStateNodes[day].alt = weather[0].main;
+
+      feelsLikeNodes[day].innerText = main.feels_like;
+      this.__tmp.feelsLike[day] = main.feels_like;
+
+      windNodes[day].innerText = wind.speed;
+      humidityNodes[day].innerText = main.humidity;
     }
   }
 
   async updateMap() {
-    const { latitude, longitude } = this.__coords;
-    this.__longitudeNode.innerText = longitude;
-    this.__latitudeNode.innerText = latitude;
+    const { longitude, latitude } = this.__coords;
+    const longitudeNode = document.querySelector(`#${longitudeId}`);
+    const latitudeNode = document.querySelector(`#${latitudeId}`);
+    longitudeNode.innerText = longitude;
+    latitudeNode.innerText = latitude;
     try {
       if (this.__map === null) {
         this.__map = await createMap(MAP_KEY, mapContainerId, longitude, latitude);
@@ -237,20 +248,8 @@ export default class WeatherApp {
     this.__measureScale = measureScale;
 
     this.__root.appendChild(Markdown);
-    this.__background = document.querySelector(`#${backgroundId}`);
-    this.__cityNameNode = document.querySelector(`#${cityNameId}`);
-    this.__currentDateNode = document.querySelector(`#${currentDateId}`);
 
     const listBlocks = document.querySelectorAll(`.${INDlistBlock}`);
-    this.__listHeaders = document.querySelectorAll(`.${INDlistHeader}`);
-    this.__tempNodes = document.querySelectorAll(`.${currentTemperatureIND}`);
-    this.__tempStateNodes = document.querySelectorAll(`.${tempStateIND}`);
-    this.__feelsLikeNodes = document.querySelectorAll(`.${feelsLikeIND}`);
-    this.__windNodes = document.querySelectorAll(`.${windIND}`);
-    this.__humidityNodes = document.querySelectorAll(`.${humidityIND}`);
-    this.__latitudeNode = document.querySelector(`#${latitudeId}`);
-    this.__longitudeNode = document.querySelector(`#${longitudeId}`);
-
     const updateButton = document.querySelector(`#${UpdateButtonId}`);
     const searchInput = document.querySelector(`#${formInputId}`);
     const searchButton = document.querySelector(`#${formSubmitId}`);
@@ -259,7 +258,6 @@ export default class WeatherApp {
     const measureUnits = document.querySelectorAll(`[name=${measureUnitsName}]`);
 
     updateButton.onclick = () => {
-      // update image!
       this.setRandomCityImage();
     };
 

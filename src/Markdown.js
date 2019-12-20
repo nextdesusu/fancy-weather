@@ -60,7 +60,7 @@ const md = `
                     <ul class="inidicators-list">
                         <li class="inidicators-item">
                             <span data-transl="feelsLike"></span>
-                            <span data-temp="c" class="${feelsLikeIND}"></span>
+                            <span data-feelsLike="c" class="${feelsLikeIND}"></span>
                         </li>
                         <li class="inidicators-item">
                             <span data-transl="wind"></span>
@@ -79,7 +79,7 @@ const md = `
                     <ul class="inidicators-list">
                         <li class="inidicators-item">
                             <span data-transl="feelsLike"></span>
-                            <span data-temp="c" class="${feelsLikeIND}"></span>
+                            <span data-feelsLike="c" class="${feelsLikeIND}"></span>
                         </li>
                         <li class="inidicators-item">
                             <span data-transl="wind"></span>
@@ -98,7 +98,7 @@ const md = `
                     <ul class="inidicators-list">
                         <li class="inidicators-item">
                             <span data-transl="feelsLike"></span>
-                            <span data-temp="c" class="${feelsLikeIND}"></span>
+                            <span data-feelsLike="c" class="${feelsLikeIND}"></span>
                         </li>
                         <li class="inidicators-item">
                             <span data-transl="wind"></span>
