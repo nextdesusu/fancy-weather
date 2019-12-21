@@ -60,8 +60,10 @@ export default class WeatherApp {
     };
   }
 
-  async setRandomCityImage() {
-    const cityName = this.__city;
+  async setRandomCityImage(city) {
+    let cityName;
+    if (city === null) cityName = this.__city;
+    else cityName = city;
     try {
       const cityImage = await GetCityImage(cityName, IMAGE_KEY);
       const background = document.querySelector(`#${backgroundId}`);
@@ -76,7 +78,7 @@ export default class WeatherApp {
     const cityNameNode = document.querySelector(`#${cityNameId}`);
     cityNameNode.innerText = cityName;
     try {
-      this.setRandomCityImage();
+      this.setRandomCityImage(cityName);
     } catch (e) {
       console.log('Failed to change city');
     }
@@ -258,7 +260,7 @@ export default class WeatherApp {
     const measureUnits = document.querySelectorAll(`[name=${measureUnitsName}]`);
 
     updateButton.onclick = () => {
-      this.setRandomCityImage();
+      this.setRandomCityImage(null);
     };
 
     for (const option of langOptions) {
