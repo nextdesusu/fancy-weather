@@ -2,8 +2,7 @@ function toFar(cel) {
   return ((cel * 9) / 5) + 32;
 }
 
-export default function SwapMeasureScale(from, to, value) {
-  if (from === to) return value;
+export default function SwapMeasureScale(to, value) {
   let res = 0;
   let sign;
   switch (to) {

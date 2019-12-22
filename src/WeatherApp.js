@@ -112,12 +112,10 @@ export default class WeatherApp {
     const { currentTemperature, feelsLike } = this.__tmp;
     for (let day = 0; day < days; day += 1) {
       const tempNode = nodesTemp[day];
-      const tempNodeScale = tempNode.getAttribute('[data-temp]');
-      tempNode.innerText = SwapMeasureScale(tempNodeScale, newScale, currentTemperature[day]);
+      tempNode.innerText = SwapMeasureScale(scale, currentTemperature[day]);
 
       const feelsLikeNode = nodesFeelsLike[day];
-      const feelsLikeNodeScale = feelsLikeNode.getAttribute('[data-feelsLike]');
-      feelsLikeNode.innerText = SwapMeasureScale(feelsLikeNodeScale, newScale, feelsLike[day]);
+      feelsLikeNode.innerText = SwapMeasureScale(scale, feelsLike[day]);
     }
     this.__measureScale = scale;
     localStorage.setItem('weather-scale', scale);
